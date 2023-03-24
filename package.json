@@ -4,8 +4,11 @@
   "description": "Código back-end para o projeto de que será usado como estudo.",
   "main": "index.js",
   "scripts": {
+    "start": "tsx src/index.ts",
+    "start:dev": "tsx watch src/index.ts",
     "lint": "eslint . --ext .ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "seed": "tsx src/lib/seed.ts"
   },
   "author": "Cauê Gracioli",
   "license": "ISC",
@@ -21,8 +24,8 @@
     "eslint-plugin-n": "^15.6.1",
     "eslint-plugin-promise": "^6.1.1",
     "express": "^4.18.2",
-    "mongoose": "^7.0.2",
     "prisma": "^4.11.0",
+    "tsx": "^3.12.6",
     "typescript": "^5.0.2"
   }
 }
