@@ -1,11 +1,16 @@
-import express from "express";
-import { prisma } from "./database/prisma";
+const express = require("express");
+import { PrismaClient } from "@prisma/client";
+import { Request, Response } from "express";
+const routes = express.Router();
+
+const prisma = new PrismaClient();
 
 const app = express();
 
-app.get("/", async (req, res) => {
-  const users = await prisma.user.findMany();
-  res.json(users);
+app.use(express.json());
+
+app.get("/", async (req: Request, res: Response) => {
+  res.send("Rota funcionando");
 });
 
 app.listen(3000, () => {

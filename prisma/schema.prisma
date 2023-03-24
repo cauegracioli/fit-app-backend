@@ -12,31 +12,32 @@ datasource db {
 }
 
 model Info {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   porcentagem Int
-  createdAt   DateTime @db.Date
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      Int      @unique
+  createdAt   DateTime? @db.Date
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int       @unique
 
   @@index([userId])
 }
 
 model User {
-  id      Int      @id @default(autoincrement())
-  name    String
-  email   String   @unique
-  infos   Info[]
-  perfil  Perfil?
-  treinos Treino[]
+  id       Int      @id @default(autoincrement())
+  name     String
+  email    String   @unique
+  password String
+  infos    Info[]
+  perfil   Perfil?
+  treinos  Treino[]
 }
 
 model Perfil {
-  id     Int      @id @default(autoincrement())
-  altura Int
-  sexo   String
-  idade  DateTime
-  user   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId Int      @unique
+  id         Int      @id @default(autoincrement())
+  altura     Int
+  sexo       String
+  nascimento DateTime
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     Int      @unique
 
   @@index([userId])
 }
