@@ -7,7 +7,9 @@
     "start": "tsx src/index.ts",
     "start:dev": "tsx watch src/index.ts",
     "lint": "eslint . --ext .ts",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "prisma": {
     "seed": "tsx src/lib/seed.ts"
   },
   "author": "Cauê Gracioli",
