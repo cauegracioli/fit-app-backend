@@ -29,5 +29,10 @@
     "prisma": "^4.11.0",
     "tsx": "^3.12.6",
     "typescript": "^5.0.2"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "bcryptjs": "^2.4.3",
+    "zod": "^3.21.4"
   }
 }

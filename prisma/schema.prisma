@@ -51,7 +51,7 @@ model Exercicio {
   peso_utilizado        Int
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
-  treino                Treino   @relation(fields: [treinoId], references: [id])
+  treino                Treino   @relation(fields: [treinoId], references: [id], onDelete: Cascade)
   treinoId              Int      @unique
 
   @@index([treinoId])
