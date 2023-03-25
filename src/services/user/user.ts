@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { z } from "zod";
-import UserRepository from "../repositories/user";
+import UserRepository from "../../repositories/user";
 const bcrypt = require("bcrypt");
 
 class UserCreateService {

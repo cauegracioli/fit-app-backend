@@ -1,5 +1,5 @@
 import { z } from "zod";
-import UserRepository from "../repositories/user";
+import UserRepository from "../../repositories/user";
 
 class UserDeleteService {
   async delete(id: string) {
