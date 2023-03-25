@@ -12,14 +12,14 @@ model Info {
   id          Int       @id @default(autoincrement())
   porcentagem Int
   createdAt   DateTime? @db.Date
-  userId      Int       @unique
+  userId      String    @unique
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
+  id       String   @id @default(cuid())
   name     String
   email    String   @unique
   password String
@@ -32,7 +32,7 @@ model Perfil {
   id         Int      @id @default(autoincrement())
   altura     Int
   sexo       String
-  userId     Int      @unique
+  userId     String   @unique
   nascimento DateTime
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -57,7 +57,7 @@ model Exercicio {
 model Treino {
   id         Int         @id @default(autoincrement())
   nome       String
-  userId     Int         @unique
+  userId     String      @unique
   exercicios Exercicio[]
   user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 

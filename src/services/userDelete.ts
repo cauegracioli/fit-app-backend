@@ -2,7 +2,7 @@ import { z } from "zod";
 import UserRepository from "../repositories/user";
 
 class UserDeleteService {
-  async delete(id: number) {
+  async delete(id: string) {
     const userRepo = new UserRepository();
     const userSchema = z.number();
 
