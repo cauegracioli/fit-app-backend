@@ -23,7 +23,7 @@ class UserRepository {
     });
   }
 
-  async delete(id: string) {
+  async delete(id: number) {
     return this.prisma.delete({
       where: { id },
     });
