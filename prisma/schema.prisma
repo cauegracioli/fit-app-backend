@@ -10,6 +10,7 @@ datasource db {
 
 model Info {
   id          Int       @id @default(autoincrement())
+  peso        Int
   porcentagem Int
   createdAt   DateTime? @db.Date
   userId      String    @unique
