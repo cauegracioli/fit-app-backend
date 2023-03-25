@@ -1,5 +1,6 @@
 import { Response } from "express";
 import { Request } from "express";
+import Login from "../services/login";
 import UserCreateService from "../services/user";
 import UserDeleteService from "../services/userDelete";
 class UserController {
@@ -25,6 +26,19 @@ class UserController {
       const deleted = await deleteService.delete(id);
 
       return res.status(200).send(deleted);
+    } catch (err) {
+      return res.status(500).json(err);
+    }
+  }
+
+  async login(req: Request, res: Response) {
+    const { email, password } = req.body;
+    const userLogin = new Login();
+
+    try {
+      const response = await userLogin.login(email, password);
+
+      return res.json(response);
     } catch (err) {
       return res.status(500).json(err);
     }

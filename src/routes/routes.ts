@@ -9,4 +9,6 @@ routes.post("/user", userController.create);
 
 routes.delete("/user", userController.delete);
 
+routes.post("/login", userController.login);
+
 export default routes;
