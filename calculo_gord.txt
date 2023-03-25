@@ -1,0 +1,18 @@
+Locais a serem medidos
+Os principais locais medidos são os bíceps, a subescapular, o abdômen, a supra-ilíaca, as coxas, os tríceps, a axilar média e as pernas. Após a medição desses locais, os números são jogados em uma equação. Algumas fórmulas usadas são:
+
+Homens (entre 18 a 30 anos):
+
+D = 1,1714 – 0,0671log (Tríceps + Supra-ilíaca + Abdominal)
+
+Mulheres (entre 18 a 30 anos):
+
+D = 1,1665 – 0,0706log (Subescapular + Supra-ilíaca + Coxa)
+
+Após descobrir o total de gordura no corpo, jogue os números em outras fórmulas, a seguir:
+
+Gordura absoluta = peso corporal vezes (gordura percentual/100)
+
+Massa isenta de gordura = peso corporal menos gordura absoluta
+
+Não se esquecendo, nunca, que a gordura total obtida nos cálculos deve ter subtraídas 20%, pois estes são necessários para as funções do organismo.

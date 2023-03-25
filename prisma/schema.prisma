@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -15,8 +12,8 @@ model Info {
   id          Int       @id @default(autoincrement())
   porcentagem Int
   createdAt   DateTime? @db.Date
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      Int       @unique
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
 }
@@ -35,9 +32,9 @@ model Perfil {
   id         Int      @id @default(autoincrement())
   altura     Int
   sexo       String
+  userId     Int      @unique
   nascimento DateTime
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     Int      @unique
 
   @@index([userId])
 }
@@ -51,8 +48,8 @@ model Exercicio {
   peso_utilizado        Int
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
-  treino                Treino   @relation(fields: [treinoId], references: [id], onDelete: Cascade)
   treinoId              Int      @unique
+  treino                Treino   @relation(fields: [treinoId], references: [id], onDelete: Cascade)
 
   @@index([treinoId])
 }
@@ -60,9 +57,9 @@ model Exercicio {
 model Treino {
   id         Int         @id @default(autoincrement())
   nome       String
+  userId     Int         @unique
   exercicios Exercicio[]
   user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     Int         @unique
 
   @@index([userId])
 }

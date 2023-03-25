@@ -1,0 +1,13 @@
+Controllers
+O controle deve se preocupar em aceitar a solicitação, repassar para o serviço de domínio correto processe a solicitação e entregue a resposta ao cliente.
+
+Services
+Essa camada é um design pattern que ajuda a abstrair suas regras de negócio, deixando sua controller mais limpa e com a responsabilidade única.
+
+Um outro ponto importante que a medida que cresce sua aplicação você tende a reutilizar os códigos já implementados nesta camada. Imagine que você tem três controllers que faz uso de um service e você precisa alterar alguma parte do código, obviamente você vai utilizar somente a função no service para alterar, entretanto se não tivessemos essa camada? Teriamos sair procurando no nosso projeto todos os lugares que faz o uso daquele trecho de código.
+
+Repositories*
+Ter querys sql no código de uma service isso torna um código grande e ilegível, por isso atribuimos aos repositories o trabalho de ser uma camada de acesso e interação com as entidades do banco de dados.
+
+Temos dois pontos que podemos utilizar para falar da utilização de um repository, centralizar regras de recuperação e persistência de dados e
+abstrair a utilização de ORMs possibilitando a troca por outros ORMs, mas vamos falar a verdade é muito dificil de um projeto ficar trocando de ORM.
