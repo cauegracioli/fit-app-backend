@@ -1,14 +1,9 @@
-import { Prisma } from "@prisma/client";
+import { User } from "@prisma/client";
 import prisma from "../database/prisma";
 
-class UserRepository {
-  prisma: any;
-  constructor() {
-    this.prisma = prisma.user;
-  }
-
-  async create(user: Prisma.UserCreateManyInput) {
-    return this.prisma.create({
+export class UserRepository {
+  async create(user: User): Promise<User> {
+    return prisma.user.create({
       data: {
         name: user.name,
         email: user.email,
@@ -17,17 +12,15 @@ class UserRepository {
     });
   }
 
-  async findByEmail(email: string) {
-    return this.prisma.findUnique({
+  async findByEmail(email: string): Promise<User | null> {
+    return prisma.user.findUnique({
       where: { email },
     });
   }
 
-  async delete(id: string) {
-    return this.prisma.delete({
+  async delete(id: string): Promise<User> {
+    return prisma.user.delete({
       where: { id },
     });
   }
 }
-
-export default UserRepository;

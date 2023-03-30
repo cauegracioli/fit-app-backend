@@ -1,22 +1,23 @@
-import { Response } from "express";
+import { NextFunction, Response } from "express";
 import { Request } from "express";
 import prisma from "../database/prisma";
 import Login from "../services/login";
 import UserCreateService from "../services/user/user";
 import UserDeleteService from "../services/user/userDelete";
 class UserController {
-  async create(req: Request, res: Response) {
+  async create(req: Request, res: Response, next: NextFunction) {
     const user = req.body;
 
     try {
       const userService = new UserCreateService();
 
       const userResponse = await userService.create(user);
-      delete userResponse.password;
+      userResponse.password = "";
 
       return res.status(200).send(userResponse);
     } catch (err) {
-      res.status(500).json(err);
+      console.error(err);
+      next(err);
     } finally {
       await prisma.$disconnect();
     }

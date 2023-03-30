@@ -13,8 +13,6 @@ export async function perfilCreateController(
   try {
     const res = await createPerfil(perfil, id);
 
-    console.log(res);
-
     if (!res.success) {
       return response.status(500).send(res);
     }
