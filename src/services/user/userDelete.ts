@@ -1,5 +1,5 @@
 import { z } from "zod";
-import UserRepository from "../../repositories/user";
+import { UserRepository } from "../../repositories/user";
 
 class UserDeleteService {
   async delete(id: string) {
@@ -13,7 +13,7 @@ class UserDeleteService {
     }
 
     const deleted = await userRepo.delete(id);
-    delete deleted.password;
+    deleted.password = "";
 
     return deleted;
   }

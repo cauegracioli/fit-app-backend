@@ -2,11 +2,6 @@ import { Prisma } from "@prisma/client";
 import prisma from "../database/prisma";
 
 class Perfil {
-  prisma: any;
-  constructor() {
-    this.prisma = prisma.perfil;
-  }
-
   async create(perfil: Prisma.PerfilCreateInput, id: string) {
     const userId = await prisma.user.findFirst({
       where: {
@@ -18,7 +13,7 @@ class Perfil {
     });
 
     if (userId) {
-      const perfilCreate = await this.prisma.create({
+      const perfilCreate = await prisma.perfil.create({
         data: {
           altura: perfil.altura,
           nascimento: perfil.nascimento,

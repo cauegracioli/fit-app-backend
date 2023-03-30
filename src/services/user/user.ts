@@ -10,22 +10,22 @@ class UserCreateService extends UserRepository {
     const userSchema = z.object({
       name: z.string(),
       password: z.string(),
-      email: z.string(),
+      username: z.string(),
     });
 
     if (!userSchema.safeParse(user).success) {
-      throw new Error("E-mail ou senha incorretos");
+      throw new Error("O formato dos dados inseridos estão incorretos");
     }
 
-    if (await this.findByEmail(user.email)) {
-      throw new Error("E-mail ou senha incorretos");
+    if (await this.findByEmail(user.username)) {
+      throw new Error("Usuário já existe");
     }
 
     const pdwHashed = await bcrypt.hash(user.password, 10);
 
     const userData: User = {
       name: user.name,
-      email: user.email,
+      username: user.username,
       password: pdwHashed,
       id: "",
       role: null,

@@ -16,8 +16,8 @@ class UserController {
 
       return res.status(200).send(userResponse);
     } catch (err) {
-      console.error(err);
-      next(err);
+      if (err instanceof Error)
+        return res.status(500).json({ error: err.message });
     } finally {
       await prisma.$disconnect();
     }
@@ -31,7 +31,8 @@ class UserController {
 
       return res.status(200).send(deleted);
     } catch (err) {
-      return res.status(500).json(err);
+      if (err instanceof Error)
+        return res.status(500).json({ error: err.message });
     } finally {
       await prisma.$disconnect();
     }
@@ -46,7 +47,8 @@ class UserController {
 
       return res.json(response);
     } catch (err) {
-      return res.status(500).json(err);
+      if (err instanceof Error)
+        return res.status(500).json({ error: err.message });
     } finally {
       await prisma.$disconnect();
     }

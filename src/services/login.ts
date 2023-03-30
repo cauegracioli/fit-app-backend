@@ -1,4 +1,4 @@
-import UserRepository from "../repositories/user";
+import { UserRepository } from "../repositories/user";
 const bcrypt = require("bcryptjs");
 import * as jwt from "jsonwebtoken";
 const auth = require("../config/auth.json");
@@ -10,16 +10,16 @@ class Login {
     const user = await userRepo.findByEmail(email);
 
     if (!user) {
-      return { success: false, error: "E-mail ou senha incorretos" };
+      throw new Error("Usuário ou senha incorretos");
     }
 
     const match = await bcrypt.compare(password, user.password);
 
     if (!match) {
-      return { success: false, error: "E-mail ou senha incorretos" };
+      throw new Error("Usuário ou senha incorretos");
     }
 
-    delete user.password;
+    user.password = "";
 
     const token = jwt.sign({ id: user.id }, auth.secret, {
       expiresIn: 86400,
