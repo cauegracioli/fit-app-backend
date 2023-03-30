@@ -6,7 +6,7 @@ class UserCreateService extends UserRepository {
   constructor() {
     super();
   }
-  async create(user: Prisma.UserCreateManyInput): Promise<User> {
+  async createUser(user: Prisma.UserCreateManyInput): Promise<User> {
     const userSchema = z.object({
       name: z.string(),
       password: z.string(),
@@ -17,7 +17,9 @@ class UserCreateService extends UserRepository {
       throw new Error("O formato dos dados inseridos estão incorretos");
     }
 
-    if (await this.findByEmail(user.username)) {
+    const userAlreadyExist = await this.findByUsername(user.username);
+
+    if (userAlreadyExist) {
       throw new Error("Usuário já existe");
     }
 

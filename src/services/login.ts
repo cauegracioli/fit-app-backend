@@ -4,10 +4,10 @@ import * as jwt from "jsonwebtoken";
 const auth = require("../config/auth.json");
 
 class Login {
-  async login(email: string, password: string) {
+  async login(username: string, password: string) {
     const userRepo = new UserRepository();
 
-    const user = await userRepo.findByEmail(email);
+    const user = await userRepo.findByUsername(username);
 
     if (!user) {
       throw new Error("Usuário ou senha incorretos");

@@ -2,7 +2,7 @@ import { User } from "@prisma/client";
 import prisma from "../database/prisma";
 
 export class UserRepository {
-  protected async create(user: User): Promise<User> {
+  async create(user: User): Promise<User> {
     return prisma.user.create({
       data: {
         name: user.name,
@@ -12,13 +12,13 @@ export class UserRepository {
     });
   }
 
-  public async findByEmail(username: string): Promise<User | null> {
-    return prisma.user.findUnique({
+  async findByUsername(username: string): Promise<User | null> {
+    return prisma.user.findFirst({
       where: { username },
     });
   }
 
-  protected async delete(id: string): Promise<User> {
+  async delete(id: string): Promise<User> {
     return prisma.user.delete({
       where: { id },
     });
