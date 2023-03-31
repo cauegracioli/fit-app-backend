@@ -1,4 +1,4 @@
-import { Exercicio, Treino } from "@prisma/client";
+import { Exercicio, Prisma, Treino } from "@prisma/client";
 import prisma from "../database/prisma";
 
 export interface TreinoInterface {
@@ -13,6 +13,10 @@ export interface TreinoInterface {
       peso_utilizado: number;
     }
   ];
+}
+
+interface TreinoComExercicios extends Treino {
+  exercicios: Exercicio[];
 }
 
 export class TreinoRepository {
@@ -61,5 +65,45 @@ export class TreinoRepository {
         exercicios: true,
       },
     });
+  }
+
+  async addNewExercice(
+    userId: string,
+    treinoId: number,
+    exercicios: Array<Prisma.ExercicioCreateInput>
+  ): Promise<Exercicio[]> {
+    const newExercices = prisma.$transaction(async (transaction) => {
+      const exercicioCreations = exercicios.map((exercicio) => {
+        const {
+          nome,
+          metodo,
+          quantidade_series,
+          quantidade_repeticoes,
+          peso_utilizado,
+        } = exercicio;
+
+        return transaction.exercicio.create({
+          data: {
+            nome,
+            metodo,
+            quantidade_series,
+            quantidade_repeticoes,
+            peso_utilizado,
+            treino: {
+              connect: {
+                id: treinoId,
+                userId,
+              },
+            },
+          },
+        });
+      });
+
+      const response = await Promise.all(exercicioCreations);
+
+      return response;
+    });
+
+    return newExercices;
   }
 }
