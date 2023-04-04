@@ -24,4 +24,6 @@ routes.post("/treino/exercicio/:user/:treino", treinoController.addExercise);
 
 routes.post("/user/info/:user", infoCreateController);
 
+routes.get("/:username", userController.findUserData);
+
 export default routes;

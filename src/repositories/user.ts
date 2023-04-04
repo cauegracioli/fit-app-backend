@@ -2,12 +2,12 @@ import { User } from "@prisma/client";
 import prisma from "../database/prisma";
 
 export class UserRepository {
-  async create(user: User): Promise<User> {
+  async create({ name, username, password }: User): Promise<User> {
     return prisma.user.create({
       data: {
-        name: user.name,
-        username: user.username,
-        password: user.password,
+        name,
+        username,
+        password,
       },
     });
   }
@@ -20,9 +20,7 @@ export class UserRepository {
 
   async findById(id: string): Promise<User | null> {
     return prisma.user.findFirst({
-      where: {
-        id,
-      },
+      where: { id },
     });
   }
 
@@ -30,5 +28,26 @@ export class UserRepository {
     return prisma.user.delete({
       where: { id },
     });
+  }
+
+  async findAllUserData(username: string): Promise<User | null> {
+    const user = await prisma.user.findFirst({
+      include: {
+        infos: true,
+        perfil: true,
+        treinos: {
+          include: {
+            exercicios: true,
+          },
+        },
+      },
+      where: { username },
+    });
+
+    if (user) {
+      if ("password" in user) user["password"] = "undefined";
+    }
+
+    return user;
   }
 }
