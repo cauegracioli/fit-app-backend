@@ -12,7 +12,7 @@ model Info {
   id          Int       @id @default(autoincrement())
   peso        Int
   porcentagem Int
-  createdAt   DateTime? @db.Date
+  createdAt   DateTime? @default(now())
   userId      String
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
