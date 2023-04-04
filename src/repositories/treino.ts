@@ -15,17 +15,20 @@ export interface TreinoInterface {
   ];
 }
 
-interface TreinoComExercicios extends Treino {
-  exercicios: Exercicio[];
-}
-
 export class TreinoRepository {
   protected async create(data: TreinoInterface): Promise<Treino> {
     const { user, nome, exercicios } = data;
 
     const treino = await prisma.$transaction(async (transaction) => {
       const createdTreino = await transaction.treino.create({
-        data: { userId: user, nome },
+        data: {
+          nome,
+          user: {
+            connect: {
+              id: user,
+            },
+          },
+        },
       });
 
       const exercicioCreations = exercicios.map((exercicio) => {
@@ -56,7 +59,7 @@ export class TreinoRepository {
     return treino;
   }
 
-  async findTreinoByName(nome: string): Promise<Treino | null> {
+  protected async findTreinoByName(nome: string): Promise<Treino | null> {
     return prisma.treino.findFirst({
       where: {
         nome,
@@ -67,43 +70,12 @@ export class TreinoRepository {
     });
   }
 
-  async addNewExercice(
-    userId: string,
-    treinoId: number,
-    exercicios: Array<Prisma.ExercicioCreateInput>
-  ): Promise<Exercicio[]> {
-    const newExercices = prisma.$transaction(async (transaction) => {
-      const exercicioCreations = exercicios.map((exercicio) => {
-        const {
-          nome,
-          metodo,
-          quantidade_series,
-          quantidade_repeticoes,
-          peso_utilizado,
-        } = exercicio;
-
-        return transaction.exercicio.create({
-          data: {
-            nome,
-            metodo,
-            quantidade_series,
-            quantidade_repeticoes,
-            peso_utilizado,
-            treino: {
-              connect: {
-                id: treinoId,
-                userId,
-              },
-            },
-          },
-        });
-      });
-
-      const response = await Promise.all(exercicioCreations);
-
-      return response;
+  async findTreinoByIdAndUserId(id: number, userId: string) {
+    return prisma.treino.findFirst({
+      where: {
+        id,
+        userId,
+      },
     });
-
-    return newExercices;
   }
 }
