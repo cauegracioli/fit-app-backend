@@ -13,7 +13,7 @@ model Info {
   peso        Int
   porcentagem Int
   createdAt   DateTime? @db.Date
-  userId      String    @unique
+  userId      String
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
@@ -51,8 +51,8 @@ model Exercicio {
   peso_utilizado        Int
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
-  treinoId              Int      @unique
-  treino                Treino   @relation(fields: [treinoId], references: [id], onDelete: Cascade)
+  treinoId              Int
+  treino                Treino?  @relation(fields: [treinoId], references: [id], onDelete: Cascade)
 
   @@index([treinoId])
 }
@@ -60,7 +60,7 @@ model Exercicio {
 model Treino {
   id         Int         @id @default(autoincrement())
   nome       String
-  userId     String      @unique
+  userId     String
   exercicios Exercicio[]
   user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 

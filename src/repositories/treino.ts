@@ -1,4 +1,4 @@
-import { Exercicio, Treino } from "@prisma/client";
+import { Exercicio, Prisma, Treino } from "@prisma/client";
 import prisma from "../database/prisma";
 
 export interface TreinoInterface {
@@ -21,7 +21,14 @@ export class TreinoRepository {
 
     const treino = await prisma.$transaction(async (transaction) => {
       const createdTreino = await transaction.treino.create({
-        data: { userId: user, nome },
+        data: {
+          nome,
+          user: {
+            connect: {
+              id: user,
+            },
+          },
+        },
       });
 
       const exercicioCreations = exercicios.map((exercicio) => {
@@ -52,13 +59,22 @@ export class TreinoRepository {
     return treino;
   }
 
-  async findTreinoByName(nome: string): Promise<Treino | null> {
+  protected async findTreinoByName(nome: string): Promise<Treino | null> {
     return prisma.treino.findFirst({
       where: {
         nome,
       },
       include: {
         exercicios: true,
+      },
+    });
+  }
+
+  async findTreinoByIdAndUserId(id: number, userId: string) {
+    return prisma.treino.findFirst({
+      where: {
+        id,
+        userId,
       },
     });
   }

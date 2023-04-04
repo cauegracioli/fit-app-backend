@@ -19,4 +19,6 @@ routes.post("/perfil/:id", perfilCreateController);
 
 routes.post("/treino/:user", treinoController.createController);
 
+routes.post("/treino/exercicio/:user/:treino", treinoController.addExercise);
+
 export default routes;
