@@ -1,7 +1,7 @@
 import { TreinoInterface } from "../../repositories/treino";
 import { TreinoRepository } from "../../repositories/treino";
 import { z } from "zod";
-import { Prisma, Exercicio } from "@prisma/client";
+import { Prisma, Exercicio, Treino } from "@prisma/client";
 import { ExercicioRepository } from "../../repositories/exercicio";
 
 export class TreinoService extends TreinoRepository {
@@ -9,7 +9,7 @@ export class TreinoService extends TreinoRepository {
     super();
   }
 
-  async createTreino(treino: TreinoInterface) {
+  async createTreino(treino: TreinoInterface): Promise<Treino> {
     const treinoSchema = z.object({
       nome: z.string(),
       user: z.string(),
@@ -30,16 +30,20 @@ export class TreinoService extends TreinoRepository {
     if (!treinoSchema.safeParse(treino).success)
       throw new Error("Os dados passados possuem o tipo incorreto.");
 
-    const treinoAlreadyExistWithThisName = await this.findTreinoByName(
-      treino.nome
-    );
-
-    if (treinoAlreadyExistWithThisName)
-      throw new Error(
-        "Um treino com o mesmo nome já existe. Crie um com um nome diferente."
+    try {
+      const treinoAlreadyExistWithThisName = await this.findTreinoByName(
+        treino.nome
       );
 
-    return this.create(treino);
+      if (treinoAlreadyExistWithThisName)
+        throw new Error(
+          "Um treino com o mesmo nome já existe. Crie um com um nome diferente."
+        );
+
+      return this.create(treino);
+    } catch (err) {
+      throw new Error("Ocorreu um erro ao tentar criar um treino");
+    }
   }
 
   async addNewExercice(
@@ -73,17 +77,21 @@ export class TreinoService extends TreinoRepository {
       throw new Error("Você precisa inserir ao menos 1 exercício");
     }
 
-    const treinoExist = await this.findTreinoByIdAndUserId(
-      validate.data.treinoId,
-      validate.data.userId
-    );
+    try {
+      const treinoExist = await this.findTreinoByIdAndUserId(
+        validate.data.treinoId,
+        validate.data.userId
+      );
 
-    if (!treinoExist) {
-      throw new Error("Um treino com esse id não existe.");
+      if (!treinoExist) {
+        throw new Error("Um treino com esse id não existe.");
+      }
+
+      const data = validate.data;
+
+      return exercicioRepo.addNewExercice(data.treinoId, exercicios);
+    } catch (error) {
+      throw new Error("Ocorreu um erro ao tentar criar um exercício");
     }
-
-    const data = validate.data;
-
-    return exercicioRepo.addNewExercice(data.userId, data.treinoId, exercicios);
   }
 }

@@ -12,10 +12,14 @@ class UserDeleteService {
       return { success: false, error: "O ID do usuário deve ser um número" };
     }
 
-    const deleted = await userRepo.delete(id);
-    deleted.password = "";
+    try {
+      const deleted = await userRepo.delete(id);
+      deleted.password = "";
 
-    return deleted;
+      return deleted;
+    } catch (error) {
+      throw new Error("Ocorreu um erro ao tentar excluir o usuário");
+    }
   }
 }
 

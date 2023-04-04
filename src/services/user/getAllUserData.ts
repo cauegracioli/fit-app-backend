@@ -7,7 +7,7 @@ export class GetAllUserData extends UserRepository {
     super();
   }
 
-  async findAllUserDataService(username: string) {
+  async findAllUserDataService(username: string): Promise<User | null> {
     const usernameSchema = z.string();
 
     if (!usernameSchema.safeParse(username).success) {
@@ -18,6 +18,10 @@ export class GetAllUserData extends UserRepository {
       throw new Error("O username está vazio, informe um para continuar");
     }
 
-    return this.findAllUserData(username);
+    try {
+      return this.findAllUserData(username);
+    } catch (err) {
+      throw new Error("Ocorreu um ao tentar buscar os dados");
+    }
   }
 }

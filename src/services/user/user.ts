@@ -17,24 +17,28 @@ class UserCreateService extends UserRepository {
       throw new Error("O formato dos dados inseridos estão incorretos");
     }
 
-    const userAlreadyExist = await this.findByUsername(user.username);
+    try {
+      const userAlreadyExist = await this.findByUsername(user.username);
 
-    if (userAlreadyExist) {
-      throw new Error("Usuário já existe");
+      if (userAlreadyExist) {
+        throw new Error("Usuário já existe");
+      }
+
+      const pdwHashed = await bcrypt.hash(user.password, 10);
+
+      const userData: User = {
+        name: user.name,
+        username: user.username,
+        password: pdwHashed,
+        id: "",
+        role: null,
+        createdAt: null,
+      };
+
+      return this.create(userData);
+    } catch (error) {
+      throw new Error("Ocorreu um erro ao tentar criar um usuário");
     }
-
-    const pdwHashed = await bcrypt.hash(user.password, 10);
-
-    const userData: User = {
-      name: user.name,
-      username: user.username,
-      password: pdwHashed,
-      id: "",
-      role: null,
-      createdAt: null,
-    };
-
-    return this.create(userData);
   }
 }
 

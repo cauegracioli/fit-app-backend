@@ -16,9 +16,11 @@ export interface TreinoInterface {
 }
 
 export class TreinoRepository {
-  protected async create(data: TreinoInterface): Promise<Treino> {
-    const { user, nome, exercicios } = data;
-
+  protected async create({
+    user,
+    nome,
+    exercicios,
+  }: TreinoInterface): Promise<Treino> {
     const treino = await prisma.$transaction(async (transaction) => {
       const createdTreino = await transaction.treino.create({
         data: {

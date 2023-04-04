@@ -3,7 +3,6 @@ import prisma from "../database/prisma";
 
 export class ExercicioRepository {
   async addNewExercice(
-    userId: string,
     treinoId: number,
     exercicios: Array<Prisma.ExercicioCreateInput>
   ): Promise<Exercicio[]> {

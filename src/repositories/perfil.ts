@@ -1,8 +1,11 @@
 import { Prisma } from "@prisma/client";
 import prisma from "../database/prisma";
 
-class Perfil {
-  async create(perfil: Prisma.PerfilCreateInput, id: string) {
+class PerfilRepository {
+  async create(
+    { altura, nascimento, sexo }: Prisma.PerfilCreateInput,
+    id: string
+  ) {
     const userId = await prisma.user.findFirst({
       where: {
         id,
@@ -15,9 +18,9 @@ class Perfil {
     if (userId) {
       const perfilCreate = await prisma.perfil.create({
         data: {
-          altura: perfil.altura,
-          nascimento: perfil.nascimento,
-          sexo: perfil.sexo,
+          altura: altura,
+          nascimento: nascimento,
+          sexo: sexo,
           user: {
             connect: {
               id: userId.id,
@@ -35,4 +38,4 @@ class Perfil {
   }
 }
 
-export default Perfil;
+export default PerfilRepository;
